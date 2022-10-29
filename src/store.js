@@ -1,23 +1,10 @@
 import { legacy_createStore as createStore } from "redux";
+import { createAction } from "@reduxjs/toolkit";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+const addToDo = createAction("ADD");
+const deleteToDo = createAction("DELETE");
 
-const addToDo = (text) => {
-  return {
-    type: ADD,
-    text,
-  };
-};
-
-const deleteToDo = (id) => {
-  return {
-    type: DELETE,
-    id,
-  };
-};
-
-const localStore = JSON.parse(window.localStorage.getItem("toDos"));
+const localStore = JSON.parse(localStorage.getItem("toDos"));
 
 const SaveStore = (state) => {
   localStorage.setItem("toDos", JSON.stringify(state));
@@ -26,10 +13,10 @@ const SaveStore = (state) => {
 
 const reducer = (state = localStore, action) => {
   switch (action.type) {
-    case ADD:
-      return SaveStore([{ text: action.text, id: Date.now() }, ...state]);
-    case DELETE:
-      return SaveStore(state.filter((toDo) => toDo.id !== action.id));
+    case addToDo.type:
+      return SaveStore([{ text: action.payload, id: Date.now() }, ...state]);
+    case deleteToDo.type:
+      return SaveStore(state.filter((toDo) => toDo.id !== action.payload));
     default:
       return state;
   }

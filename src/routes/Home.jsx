@@ -11,7 +11,6 @@ function Home({ toDos, addToDo }) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(text);
     addToDo(text);
     setText("");
   };
@@ -40,7 +39,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { addToDo: (text) => dispatch(actionCreators.addToDo(text)) };
+  return {
+    addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
